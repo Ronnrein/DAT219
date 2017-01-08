@@ -2,14 +2,94 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>DAT219 | Ronny | Assignment 1</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="src/style.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="src/script.js"></script>
 </head>
 <body>
-
+<div id="header-background"></div>
+<div id="header" class="container">
+    <h1>DAT219::Assignment1</h1>
+</div>
+<div class="container" id="main-container">
+    <div>
+        <img src="src/img/r.jpg">
+        <p>My name is Ronny and i am a 25 year old man from Kristiansand, Norway. I study for my masters in multimediatechnology and will pursue a career in software development.</p>
+        <p>On this page i will talk about why i chose the education path i have pursued, as well as talk about some of my interests</p>
+    </div>
+    <div>
+        <div class="header">
+            <h2>Multimediatechnology</h2>
+            <div class="header-widget" id="header1-widget"></div>
+        </div>
+        <div class="col-md-12">
+            <p>I have always been interested in technology, and in particular multimediatechnology. Anything technical, from programming to audio engineering and video, have been my hobbies. It was therefore natural for me to choose multimediatechnology as my bachelor, and now masters, degree.</p>
+        </div>
+    </div>
+    <div>
+        <h2>Why i have chosen this course</h2>
+        <div class="col-md-6">
+            <p>While i have experience with both web development and working with .net and C#, i have not used these together extensively before. Therefore, it seems natural for me to get to know this better, especially as it is so commonly used when developing internet platforms.</p>
+        </div>
+        <div class="col-md-6">
+            <p>Skills i want to improve</p>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Language</th>
+                    <th>Experience</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>C#</td>
+                    <td>Worked with it for years, but a little rusty now</td>
+                </tr>
+                <tr>
+                    <td>ASP.NET</td>
+                    <td>Used very little, but know all key concepts from other languages</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div>
+        <h2>What i wish to get out of this course</h2>
+        <div class="col-md-12">
+            <p>I hope that by the completion of this course will have a better understanding as to how develop web applications on the .net platform, as well as improve my overall web development knowledge.</p>
+        </div>
+    </div>
+    <div>
+        <h2>Ideas for my project</h2>
+        <div class="col-md-6">
+            <p>While i have not settled on a concrete project idea yet, i know i will want to make something that is actually usable, and not just something that fulfills the project criteria. I will also want to include as many new concepts and technologies that i am not familiar with as possible in order to learn about them.</p>
+        </div>
+        <div class="col-md-6">
+            <p>Here are a couple of ideas</p>
+            <ul class="list-group">
+                <li class="list-group-item">Management game</li>
+                <li class="list-group-item">Game-related service</li>
+            </ul>
+        </div>
+    </div>
+    <div>
+        <div class="header">
+            <h2>Gaming</h2>
+            <div class="header-widget" id="header2-widget">
+                <div class="input-group">
+                    <input type="search" class="form-control input-sm" id="search-input" name="search-input" placeholder="Search my steam library">
+                </div>
+                <p id="search-result"></p>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <p>One of my other great interests is gaming. I like to play roleplaying and adventure games, and spend a lot of my free time on it. At this moment, i currently have a total of <span id="steam-playtime">a lot of</span> hours played accross all the <span id="steam-games">over 300</span> games in my steam library, and i am currently <span id="steam-status">offline</span> on my steam account.</p>
+        </div>
+    </div>
+</div>
 </body>
 </html>
