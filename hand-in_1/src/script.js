@@ -6,6 +6,7 @@ function App() {
     this.steamStatusEl = "#steam-status";
     this.steamGamesEl = "#steam-games";
     this.steamPlaytimeEl = "#steam-playtime";
+    this.steamMostPlayedEl = "#steam-most-played";
 
     var self = this;
 
@@ -14,9 +15,10 @@ function App() {
     function init() {
         new WidgetSpectrum(self.widget1El, 10, 500);
         new WidgetGameSearch(self.searchInputEl, self.searchResultEl, function(steam) {
-            $(self.steamStatusEl).html(steam.isOnline() ? "online" : "offline");
+            $(self.steamStatusEl).html(steam.isOnline() ? "Online" : "Offline");
             $(self.steamGamesEl).html(steam.getGameCount());
             $(self.steamPlaytimeEl).html(steam.getTotalPlaytime());
+            $(self.steamMostPlayedEl).html(steam.getMostPlayedGame());
         });
     }
 }
@@ -82,20 +84,25 @@ function WidgetGameSearch(inputElement, resultElement, callback) {
         return !!steamUserData.personastate;
     };
 
+    this.getMostPlayedGame = function() {
+        return steamGamesData.games[0].name;
+    };
+
     function init() {
         $.when(
-            $.getJSON(self.steamUserURL, function(data) {
-                steamUserData = data.response.players[0];
-            }),
-            $.getJSON(self.steamGamesURL, function(data) {
-                steamGamesData = data.response;
-            })
+            $.getJSON(self.steamUserURL),
+            $.getJSON(self.steamGamesURL)
         ).done(function(data1, data2) {
             steamUserData = data1[0].response.players[0];
             steamGamesData = data2[0].response;
+            steamGamesData.games.sort(sortByHoursPlayed);
             bindEvents();
             callback(self);
         });
+    }
+
+    function sortByHoursPlayed(a, b) {
+        return a.playtime_forever < b.playtime_forever ? 1 : b.playtime_forever < a.playtime_forever ? -1 : 0;
     }
 
     function searchInputChanged() {
