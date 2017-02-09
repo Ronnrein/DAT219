@@ -1,0 +1,9 @@
+@using Blog.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@model Post
+<blockquote>
+    <h3>@Model.Title</h3>
+    <p>@Model.Content</p>
+    <footer>@Model.User.UserName | @Model.DateCreated.ToString("dd.MM.yyyy HH:mm")</footer>
+</blockquote>

@@ -1,0 +1,11 @@
+@using Blog.Models
+@using Microsoft.EntityFrameworkCore;
+@model DbSet<Post>
+@foreach (Post post in Model.OrderByDescending(x => x.DateCreated))
+{
+    <blockquote>
+        <h3><a asp-controller="Home" asp-action="Post" asp-route-id="@post.Id">@post.Title</a></h3>
+        <p>@post.Content</p>
+        <footer>@post.DateCreated.ToString("dd.MM.yyyy HH:mm")</footer>
+    </blockquote>
+}
