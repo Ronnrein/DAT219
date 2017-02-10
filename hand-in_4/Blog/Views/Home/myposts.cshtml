@@ -6,10 +6,10 @@
 {
     <blockquote>
         <h3>
-            <b><a asp-controller="Home" asp-action="Post" asp-route-id="@post.Id">@post.Title</a></b>
-            &nbsp;(<a asp-controller="Home" asp-action="Edit" asp-route-id="@post.Id">Edit</a>)
+            <b><a asp-controller="Home" asp-action="Post" asp-route-id="@post.Id">@post.Title</a></b>&nbsp;
+            (<a asp-controller="Home" asp-action="Edit" asp-route-id="@post.Id">Edit</a>)
+            (<a asp-controller="Home" asp-action="Delete" asp-route-id="@post.Id">Delete</a>)
         </h3>
-        <p>@post.Content</p>
         <footer>@post.DateCreated.ToString("dd.MM.yyyy HH:mm")</footer>
     </blockquote>
 }

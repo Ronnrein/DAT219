@@ -11,16 +11,13 @@ namespace Blog.Controllers
     {
         private ApplicationDbContext db;
         private UserManager<ApplicationUser> userManager;
-        private SignInManager<ApplicationUser> signInManager;
 
         public HomeController(
             ApplicationDbContext db,
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            UserManager<ApplicationUser> userManager)
         {
             this.db = db;
             this.userManager = userManager;
-            this.signInManager = signInManager;
         }
 
         public IActionResult Index()
@@ -39,21 +36,21 @@ namespace Blog.Controllers
             ApplicationUser user = await userManager.GetUserAsync(User);
             if(user == null)
             {
-                return RedirectToAction("Index");
+                return Unauthorized();
             }
             db.Entry(user).Collection(u => u.Posts).Load();
             return View(user.Posts);
         }
 
+        [HttpGet]
         public IActionResult Post(int id)
         {
             Post post = db.Posts.Find(id);
-            if(post != null) {
-                db.Entry(post).Reference(p => p.User).Load();
-
-                return View(post);
+            if(post == null) {
+                return NotFound();
             }
-            return NotFound();
+            db.Entry(post).Reference(p => p.User).Load();
+            return View(post);
         }
 
         [HttpGet]
@@ -67,53 +64,61 @@ namespace Blog.Controllers
         [Authorize]
         public async Task<IActionResult> New(Post post)
         {
-            if(ModelState.IsValid) {
-                post.User = await userManager.GetUserAsync(User);
-                db.Posts.Add(post);
-                db.SaveChanges();
-                return RedirectToAction("Post", new {id = post.Id});
+            if(!ModelState.IsValid) {
+                return View();
             }
-            return View();
+            post.User = await userManager.GetUserAsync(User);
+            db.Posts.Add(post);
+            db.SaveChanges();
+            return RedirectToAction("Post", new {id = post.Id});
         }
 
         [HttpGet("Home/Post/{id}/Edit")]
         [Authorize]
-        public async Task<IActionResult> Edit(int id)
+        public IActionResult Edit(int id)
         {
-            Post post = db.Posts.Find(id);
-            if(post != null) {
-                db.Entry(post).Reference(p => p.User).Load();
-                ApplicationUser user = await userManager.GetUserAsync(HttpContext.User);
-                if(user.Id != post.User.Id)
-                {
-                    return Unauthorized();
-                } 
-                return View(post);
-            }
-            return NotFound();
+            return View(id);
         }
 
         [HttpPost("Home/Post/{id}/Edit"), ActionName("Edit")]
         [Authorize]
         public async Task<IActionResult> EditPost(int id)
         {
-            if(ModelState.IsValid) {
-                Post post = db.Posts.Find(id);
-                if(post != null) {
-                    db.Entry(post).Reference(p => p.User).Load();
-                    ApplicationUser user = await userManager.GetUserAsync(User);
-                    if(user.Id != post.User.Id)
-                    {
-                        return Unauthorized();
-                    }
-                    if(await TryUpdateModelAsync<Post>(post, "", p => p.Content, p => p.Title))
-                    {
-                        db.SaveChanges();
-                        return RedirectToAction("Post", new {id = post.Id});
-                    }
-                }
+            if(!ModelState.IsValid) {
+                return View();
             }
-            return View();
+            Post post = db.Posts.Find(id);
+            if(post == null) {
+                return NotFound();
+            }
+            db.Entry(post).Reference(p => p.User).Load();
+            ApplicationUser user = await userManager.GetUserAsync(User);
+            if(user.Id != post.User.Id)
+            {
+                return Unauthorized();
+            }
+            if(await TryUpdateModelAsync<Post>(post, "", p => p.Content, p => p.Title))
+            {
+                db.SaveChanges();
+            }
+            return RedirectToAction("Post", new {id = post.Id});
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id) {
+            Post post = db.Posts.Find(id);
+            if(post == null) {
+                return NotFound();
+            }
+            db.Entry(post).Reference(p => p.User).Load();
+            ApplicationUser user = await userManager.GetUserAsync(User);
+            if(user.Id != post.User.Id)
+            {
+                return Unauthorized();
+            }
+            db.Posts.Remove(post);
+            db.SaveChanges();
+            return RedirectToAction("MyPosts");
         }
     }
 }

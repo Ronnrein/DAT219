@@ -1,19 +1,6 @@
-@using Blog.Models
-@model Post
+@model int
 <h3>Edit post</h3>
 @using (Html.BeginForm())
 {
-    if (!Html.ViewData.ModelState.IsValid)
-    {
-        @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
-    }
-    <div class="form-group">
-        <label for="title">Title:</label>
-        <input type="text" class="form-control" name="title" id="title" value="@Model.Title">
-    </div>
-    <div class="form-group">
-        <label for="content">Content:</label>
-        <textarea class="form-control" name="content" id="content" rows="5">@Model.Content</textarea>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    @await Component.InvokeAsync("PostEditor", new {id = Model})
 }
