@@ -1,0 +1,7 @@
+@model Story
+<blockquote>
+    <img class="img-responsive" src="@Model.ImageUrl">
+    <h1>@Model.Title</h1>
+    @Html.Raw(CommonMark.CommonMarkConverter.Convert(Model.Content))
+    <footer>@Model.DateCreated.ToString("dd.MM.yyyy HH:mm")</footer>
+</blockquote>
